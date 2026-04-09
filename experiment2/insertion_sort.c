@@ -1,27 +1,9 @@
+/*Write a program in C that implements the Insertion sort to sort a given array of integers in ascending order.*/
+
 #include <stdio.h>
 
-void insertionSort(int a[], int n) {
-    int i, key, j;
-
-    for (i = 1; i < n; i++) {
-        key = a[i];        
-        j = i - 1;
-
-        while (j >= 0 && a[j] > key) {
-            a[j + 1] = a[j];
-            j = j - 1;
-        }
-
-        a[j + 1] = key;    
-
-	}
-    
-    
-    
-}
-
 int main() {
-    int a[20], n, i;
+    int a[20], n, i, j, key;
 
     scanf("%d", &n);
 
@@ -29,7 +11,18 @@ int main() {
         scanf("%d", &a[i]);
     }
 
-    insertionSort(a, n);
+    // Insertion Sort Logic
+    for (i = 1; i < n; i++) {
+        key = a[i];
+        j = i - 1;
+
+        while (j >= 0 && a[j] > key) {
+            a[j + 1] = a[j];
+            j--;
+        }
+
+        a[j + 1] = key;
+    }
 
     for (i = 0; i < n; i++) {
         printf("%d ", a[i]);
