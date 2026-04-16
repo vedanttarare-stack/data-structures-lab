@@ -1,1 +1,59 @@
-
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX 100
+int main() {
+    int V, E;
+    int u, v, start;    
+    struct Node {
+        int vertex;
+        struct Node* next;
+    };
+    struct Node* adj[MAX];
+    int visited[MAX];
+    scanf("%d %d", &V, &E);
+    for (int i = 0; i < V; i++) {
+        adj[i] = NULL;
+        visited[i] = 0;
+    }
+    for (int i = 0; i < E; i++) {
+        scanf("%d %d", &u, &v);
+        struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+        newNode->vertex = v;
+        newNode->next = adj[u];
+        adj[u] = newNode;
+    }
+    for (int i = 0; i < V; i++) {
+        struct Node *p, *q;
+        for (p = adj[i]; p != NULL; p = p->next) {
+            for (q = p->next; q != NULL; q = q->next) {
+                if (p->vertex > q->vertex) {
+                    int temp = p->vertex;
+                    p->vertex = q->vertex;
+                    q->vertex = temp;
+                }
+            }
+        }
+    }
+    scanf("%d", &start);
+    int stack[MAX], top = -1;
+    stack[++top] = start;
+    while (top != -1) {
+        int curr = stack[top--];
+        if (!visited[curr]) {
+            printf("%d ", curr);
+            visited[curr] = 1;
+        }
+        struct Node* temp = adj[curr];
+        int tempArr[MAX], k = 0;
+        while (temp != NULL) {
+            if (!visited[temp->vertex]) {
+                tempArr[k++] = temp->vertex;
+            }
+            temp = temp->next;
+        }
+        for (int i = k - 1; i >= 0; i--) {
+            stack[++top] = tempArr[i];
+        }
+    }
+    return 0;
+}
